@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Kotlin build cache та локальні налаштування IDE
+.kotlin/
+/.idea/

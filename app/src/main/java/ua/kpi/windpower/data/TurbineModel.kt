@@ -16,6 +16,7 @@ package ua.kpi.windpower.data
  * @property rpm Поточна кутова швидкість обертання ротора (об/хв).
  * @property pitchAngleDeg Поточний кут повороту лопатей навколо поздовжньої осі (pitch control, град).
  * @property status Поточний експлуатаційний стан агрегату.
+ * @property isInMaintenance Ознака виведення установки у планове технічне обслуговування (керувалась диспетчером).
  */
 data class TurbineModel(
     val id: String,
@@ -27,7 +28,8 @@ data class TurbineModel(
     var currentPowerKw: Double,
     var rpm: Double,
     var pitchAngleDeg: Double,
-    var status: TurbineStatus
+    var status: TurbineStatus,
+    val isInMaintenance: Boolean = false
 )
 
 /**

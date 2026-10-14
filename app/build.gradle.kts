@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "ua.kpi.windpower"
+        applicationId = "ua.kpi.windpower.lr1"
         minSdk = 24
         targetSdk = 37
         versionCode = 1

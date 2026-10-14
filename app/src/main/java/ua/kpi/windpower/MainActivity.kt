@@ -30,7 +30,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +37,6 @@ import ua.kpi.windpower.ui.screens.AuthProfileScreen
 import ua.kpi.windpower.ui.screens.CalculatorScreen
 import ua.kpi.windpower.ui.screens.DashboardScreen
 import ua.kpi.windpower.ui.screens.TurbineFleetScreen
-import ua.kpi.windpower.ui.theme.EmeraldLight
 import ua.kpi.windpower.ui.theme.WindPowerPlantTheme
 
 /**
@@ -77,7 +75,7 @@ class MainActivity : ComponentActivity() {
                                         modifier = Modifier
                                             .size(10.dp)
                                             .clip(CircleShape)
-                                            .background(EmeraldLight)
+                                            .background(MaterialTheme.colorScheme.primary)
                                     )
                                     Spacer(modifier = Modifier.width(10.dp))
                                     Text(
@@ -117,11 +115,11 @@ class MainActivity : ComponentActivity() {
                                         )
                                     },
                                     colors = NavigationBarItemDefaults.colors(
-                                        selectedIconColor = EmeraldLight,
-                                        selectedTextColor = EmeraldLight,
-                                        unselectedIconColor = Color(0xFF94A3B8),
-                                        unselectedTextColor = Color(0xFF94A3B8),
-                                        indicatorColor = EmeraldLight.copy(alpha = 0.15f)
+                                        selectedIconColor = MaterialTheme.colorScheme.primary,
+                                        selectedTextColor = MaterialTheme.colorScheme.primary,
+                                        unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        indicatorColor = MaterialTheme.colorScheme.primaryContainer
                                     )
                                 )
                             }

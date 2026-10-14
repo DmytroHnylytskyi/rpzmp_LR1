@@ -34,7 +34,7 @@ class WindPowerCalculator {
      */
     fun calculatePowerBasic(windSpeedInput: String): Double {
         val speed = windSpeedInput.toDoubleOrNull() ?: 0.0
-        if (speed < 3.0 || speed > 25.0) return 0.0
+        if (speed < CUT_IN_MPS || speed > CUT_OUT_MPS) return 0.0
 
         val estimatedKw = speed * 45.0
         return (estimatedKw * 10.0).roundToInt() / 10.0
@@ -52,7 +52,7 @@ class WindPowerCalculator {
         val effPercent = efficiencyInput.toDoubleOrNull() ?: 0.0
         val efficiency = (effPercent / 100.0).coerceIn(0.0, 1.0)
 
-        if (speed < 3.0 || speed > 25.0) return 0.0
+        if (speed < CUT_IN_MPS || speed > CUT_OUT_MPS) return 0.0
 
         val powerKw = speed.pow(2.5) * efficiency * 18.0
         return (powerKw * 100.0).roundToInt() / 100.0
@@ -78,7 +78,7 @@ class WindPowerCalculator {
         val cp = (cpPercent / 100.0).coerceIn(0.0, betzLimit)
 
         // Перевірка допустимого робочого діапазону швидкостей (Cut-in та Cut-out)
-        if (speed < 3.0 || speed > 25.0 || radius <= 0.0 || cp <= 0.0) {
+        if (speed < CUT_IN_MPS || speed > CUT_OUT_MPS || radius <= 0.0 || cp <= 0.0) {
             return 0.0
         }
 
@@ -103,10 +103,21 @@ class WindPowerCalculator {
         val speed = windSpeedInput.toDoubleOrNull() ?: 0.0
         return when {
             speed <= 0.0 -> "Очікування достовірних даних анемометра"
-            speed < 3.0 -> "Штиль (< 3.0 м/с): Нижче швидкості включення (Cut-in). Турбіна в режимі готовності."
-            speed in 3.0..11.9 -> "Робочий вітер (3.0 - 12.0 м/с): Часткове навантаження з регулюванням за швидкістю ротора."
-            speed in 12.0..25.0 -> "Номінальний вітер (12.0 - 25.0 м/с): Номінальна потужність. Активний Pitch-контроль кута атаки."
+            speed < CUT_IN_MPS -> "Штиль (< 3.0 м/с): Нижче швидкості включення (Cut-in). Турбіна в режимі готовності."
+            speed < RATED_MPS -> "Робочий вітер (3.0 - 12.0 м/с): Часткове навантаження з регулюванням за швидкістю ротора."
+            speed <= CUT_OUT_MPS -> "Номінальний вітер (12.0 - 25.0 м/с): Номінальна потужність. Активний Pitch-контроль кута атаки."
             else -> "Ураганний вітер (> 25.0 м/с): Перевищення швидкості зупинки (Cut-out)! Аварійне флюгування та дискове гальмування."
         }
+    }
+
+    companion object {
+        /** Пускова швидкість турбіни (Cut-in), м/с. */
+        const val CUT_IN_MPS = 3.0
+
+        /** Номінальна швидкість виходу на Pitch-плато, м/с. */
+        const val RATED_MPS = 12.0
+
+        /** Швидкість аварійного відключення (Cut-out), м/с. */
+        const val CUT_OUT_MPS = 25.0
     }
 }
